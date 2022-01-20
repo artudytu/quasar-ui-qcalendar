@@ -243,10 +243,13 @@ export default defineComponent({
     })
 
     const resourcesWidth = computed(() => {
+      /*
       if (rootRef.value) {
         return parseInt(getComputedStyle(rootRef.value).getPropertyValue('--calendar-resources-width'), 10)
       }
       return 0
+      */
+     return 115
     })
 
     const parsedResourceHeight = computed(() => {
@@ -384,8 +387,19 @@ export default defineComponent({
     }
 
     function __renderResourceRow (resource, resourceIndex) {
+      const width = isSticky.value === true ? convertToUnit(parsedCellWidth.value) : computedWidth.value
+      //const styler = props.weekdayStyle || dayStyleDefault
       const style = {
+        width,
+        maxWidth: width,
+        minWidth: width,
+        //...styler({ scope })
       }
+      if (isSticky.value === true) {
+        style.minWidth = width
+      }
+
+
       style.height = resource.height !== void 0
         ? convertToUnit(parseInt(resource.height, 10))
         : parsedResourceHeight.value
